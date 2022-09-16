@@ -3,7 +3,6 @@ class OverworldEvent {
     this.map = map;
     this.event = event;
   }
-
   stand(resolve) {
     const who = this.map.gameObjects[this.event.who];
     who.startBehavior(
@@ -26,6 +25,7 @@ class OverworldEvent {
     };
     document.addEventListener('PersonStandComplete', completeHandler);
   }
+
   walk(resolve) {
     const who = this.map.gameObjects[this.event.who];
     who.startBehavior(
@@ -72,6 +72,15 @@ class OverworldEvent {
 
       sceneTransition.fadeOut();
     });
+  }
+
+  battle(resolve) {
+    const battle = new Battle({
+      onComplete: () => {
+        resolve();
+      },
+    });
+    battle.init(document.querySelector('.game-container'));
   }
 
   init() {
