@@ -3,6 +3,7 @@ class OverworldEvent {
     this.map = map;
     this.event = event;
   }
+
   stand(resolve) {
     const who = this.map.gameObjects[this.event.who];
     who.startBehavior(
