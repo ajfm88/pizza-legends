@@ -54,7 +54,10 @@ class OverworldMap {
         event: events[i],
         map: this,
       });
-      await eventHandler.init();
+      const result = await eventHandler.init();
+      if (result === 'LOST_BATTLE') {
+        break;
+      }
     }
 
     this.isCutscenePlaying = false;
@@ -72,7 +75,12 @@ class OverworldMap {
       return `${object.x},${object.y}` === `${nextCoords.x},${nextCoords.y}`;
     });
     if (!this.isCutscenePlaying && match && match.talking.length) {
-      this.startCutscene(match.talking[0].events);
+      const relevantScenario = match.talking.find((scenario) => {
+        return (scenario.required || []).every((sf) => {
+          return playerState.storyFlags[sf];
+        });
+      });
+      relevantScenario && this.startCutscene(relevantScenario.events);
     }
   }
 
@@ -119,9 +127,29 @@ window.OverworldMaps = {
         ],
         talking: [
           {
+            required: ['TALKED_TO_ERIO'],
             events: [
-              { type: 'textMessage', text: "I'm busy...", faceHero: 'npcA' },
+              {
+                type: 'textMessage',
+                text: "Isn't Erio the coolest?",
+                faceHero: 'npcA',
+              },
+            ],
+          },
+          {
+            events: [
+              {
+                type: 'textMessage',
+                text: "I'm going to crush you!",
+                faceHero: 'npcA',
+              },
               { type: 'battle', enemyId: 'beth' },
+              { type: 'addStoryFlag', flag: 'DEFEATED_BETH' },
+              {
+                type: 'textMessage',
+                text: 'You crushed me like weak pepper.',
+                faceHero: 'npcA',
+              },
               // { type: "textMessage", text: "Go away!"},
               //{ who: "hero", type: "walk",  direction: "up" },
             ],
@@ -136,7 +164,8 @@ window.OverworldMaps = {
           {
             events: [
               { type: 'textMessage', text: 'Bahaha!', faceHero: 'npcB' },
-              { type: 'battle', enemyId: 'erio' },
+              { type: 'addStoryFlag', flag: 'TALKED_TO_ERIO' },
+              //{ type: "battle", enemyId: "erio" }
             ],
           },
         ],
