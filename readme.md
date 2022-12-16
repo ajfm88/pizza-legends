@@ -2,11 +2,11 @@
 
 ## Live Demo:
 
-- 🎮 [Pizza Legends](https://pizza-legends-ajfm88.netlify.app/) 🕹️
+- 🎮 [Pizza Legends](https://pizza-legends-ajfm88.netlify.app) 🕹️
 
 ## Features:
 
-- Uses HTML5 Canvas. 📜
-- Styled with CSS3. 🎨
-- Coded in vanilla JavaScript (ES6). 👨🏽‍💻
-- Uses JavaScript’s OOP (Object Oriented Programming) features. ✨
+- Uses HTML5 Canvas 📜
+- Styled with CSS3 🎨
+- Coded in vanilla JavaScript (ES6) 👨🏽‍💻
+- Uses JavaScript’s OOP (Object Oriented Programming) features ✨
